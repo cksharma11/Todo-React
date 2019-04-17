@@ -2,6 +2,7 @@ const express = require("express");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 8080;
+const view = require("ejs");
 const app = new express();
 
 let loggedInUser = ""; //use cookie or something else for logged in user
@@ -19,7 +20,7 @@ const signUp = (req, res) => {
   connnection.query(
     `insert into users(username, password) values("${username}", "${password}");`,
     (err, data) => {
-      if (err) res.send("username already exists.");
+      if (err) return res.send("username already exists.");
       res.redirect("/login");
     }
   );
@@ -32,7 +33,7 @@ const login = (req, res) => {
     `select * from users where users.username="${username}" AND users.password="${password}";`,
     (err, data) => {
       if (err) throw err;
-      if (data.length == 0) res.send("username or password incorrect");
+      if (data.length == 0) return res.send("username or password incorrect");
       loggedInUser = username;
       res.redirect("/home");
     }
@@ -70,9 +71,17 @@ app.use(logger);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("build"));
 
+app.set("views", __dirname + "/build");
+app.engine("html", view.renderFile);
+app.set("view engine", "html");
+
 app.post("/signUp", signUp);
 app.post("/login", login);
 app.post("/addTodo", addTodo);
+
+app.get("/home", (req, res) => {
+  res.render("index.html");
+});
 
 app.get("/todos", getTodos);
 
