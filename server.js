@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 8080;
 const app = new express();
 
+let loggedInUser = "";
+
 const connnection = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -29,8 +31,32 @@ const login = (req, res) => {
   connnection.query(
     `select * from users where users.username="${username}" AND users.password="${password}";`,
     (err, data) => {
-      if (err) res.send("username or password incorrect.");
-      res.send("Query Ok.");
+      if (err) throw err;
+      if (data.length == 0) res.send("username or password incorrect");
+      loggedInUser = username;
+      res.redirect("/home");
+    }
+  );
+};
+
+const addTodo = (req, res) => {
+  const todo = req.body.todo;
+  connnection.query(
+    `insert into todos(username, todo) values("${loggedInUser}", "${todo}");`,
+    (err, data) => {
+      if (err) throw err;
+      res.redirect("/home");
+    }
+  );
+};
+
+const getTodos = (req, res) => {
+  connnection.query(
+    `select * from todos where todos.username="${loggedInUser}"`,
+    (err, data) => {
+      if (err) throw err;
+      console.log(data);
+      res.send(JSON.stringify(data));
     }
   );
 };
@@ -46,5 +72,8 @@ app.use(express.static("build"));
 
 app.post("/signUp", signUp);
 app.post("/login", login);
+app.post("/addTodo", addTodo);
+
+app.get("/todos", getTodos);
 
 app.listen(PORT, () => console.log("Listning on ", PORT));
