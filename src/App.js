@@ -12,7 +12,7 @@ class App extends Component {
           <Route exact path="/"  component={LoginForm} />
           <Route path="/login" component={LoginForm} />
           <Route path="/signUp" component={SignUpForm} />
-          <Route exact path="/home" component={HomePage} />
+          <Route path="/home" component={HomePage} />
       </Router>
     );
   }

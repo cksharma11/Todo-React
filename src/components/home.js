@@ -10,17 +10,17 @@ class HomePage extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="home">
         <CreateTodo />
-        {this.state.todos
-          .map(todo => {
-            return (
-              <div>
-                <div>{todo.todo}</div>
-              </div>
-            );
-          })
-          .reverse()}
+          {this.state.todos
+            .map(todo => {
+              return (
+                <div>
+                  <div className="todo">{todo.todo}</div>
+                </div>
+              );
+            })
+            .reverse()}
       </div>
     );
   }
