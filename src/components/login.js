@@ -2,12 +2,12 @@ import React from "react";
 
 const LoginForm = () => {
   return (
-    <div>
-      <div>Login</div>
+    <div className="box">
+      <div className="heading">Login</div>
       <form method="POST" action="/login">
         <input type="text" name="username" />
         <input type="password" name="password" />
-        <input type="submit" />
+        <input className="submit" type="submit" />
       </form>
     </div>
   );

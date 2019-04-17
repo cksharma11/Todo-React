@@ -2,13 +2,15 @@ import React from "react";
 
 const SignUpForm = () => {
   return (
-    <div>
-      <div>Sign Up</div>
-      <form method="POST" action="/signUp">
-        <input type="text" name="username" />
-        <input type="password" name="password" />
-        <input type="submit" />
-      </form>
+    <div className="box">
+      <div className="heading">Sign Up</div>
+      <div>
+        <form method="POST" action="/signUp">
+          <input type="text" name="username" />
+          <input type="password" name="password" />
+          <input className="submit" type="submit" />
+        </form>
+      </div>
     </div>
   );
 };

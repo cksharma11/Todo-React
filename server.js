@@ -4,12 +4,12 @@ const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 8080;
 const app = new express();
 
-let loggedInUser = "";
+let loggedInUser = ""; //use cookie or something else for logged in user
 
 const connnection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "password",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PWD,
   database: "todo"
 });
 
